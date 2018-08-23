@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="UFXDemo">
+</Property><Property Name="解决方案文件" Value="C:\Users\lee\Desktop\UFXAsynDemo_C++(篮子委托+订阅主推)\UFXAsynDemo_C++\UFXDemo.sln">
+</Property><Property Name="Date" Value="2015年9月28日">
+</Property><Property Name="Time" Value="17:01">
+</Property></Properties><Event ErrorLevel="0" Project="UFXDemo" Source="UFXDemo.vcproj" Description="Converting project file 'C:\Users\lee\Desktop\UFXAsynDemo_C++(篮子委托+订阅主推)\UFXAsynDemo_C++\UFXDemo.vcproj'.">
+</Event><Event ErrorLevel="1" Project="UFXDemo" Source="UFXDemo.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="UFXDemo" Source="UFXDemo.vcproj" Description="Done converting to new project file 'C:\Users\lee\Desktop\UFXAsynDemo_C++(篮子委托+订阅主推)\UFXAsynDemo_C++\UFXDemo.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="UFXDemo" Source="UFXDemo.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="UFXDemo.sln" Description="成功转换解决方案">
+</Event><Event ErrorLevel="3" Project="" Source="UFXDemo.sln" Description="Converted">
+</Event></UpgradeLog>

@@ -1,0 +1,22 @@
+
+file(GLOB_RECURSE CPP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp *.ini) 
+file(GLOB_RECURSE HEADER_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.h)
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${CPP_FILES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${HEADER_FILES})
+
+
+include_directories(t2Sdk
+                    x64-ctp
+                    ${Boost_INCLUDE_DIRS}
+                    )
+
+add_executable(riskManager ${CPP_FILES} ${HEADER_FILES})
+
+target_link_libraries(riskManager
+                        thostmduserapi
+                        thosttraderapi
+                        t2sdk
+                        )
+
+

@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+
+project(riskManager LANGUAGES C CXX)
+
+#set(CMAKE_PREFIX_PATH  "C:/boost_1_67_0/boost_1_67_0")
+
+add_subdirectory(src)

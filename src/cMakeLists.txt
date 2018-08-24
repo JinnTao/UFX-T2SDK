@@ -9,13 +9,19 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${HEADER_FILES})
 include_directories(t2Sdk
                     x64-ctp
                     ${Boost_INCLUDE_DIRS}
+                    ctp
+                    ufx
+                    Common
                     )
+link_directories(x64-ctp
+                 t2Sdk
+)
 
 add_executable(riskManager ${CPP_FILES} ${HEADER_FILES})
 
 target_link_libraries(riskManager
-                        thostmduserapi
                         thosttraderapi
+                        thostmduserapi
                         t2sdk
                         )
 

@@ -1,3 +1,6 @@
+// create by JinnTao 2018/08/24 .
+// Tel:314315805@qq.com
+
 #include "manager.h"
 #include <csignal>
 volatile std::sig_atomic_t is_running;
@@ -11,7 +14,7 @@ int main(){
     try{
         manager riskManager;
         int32 result = 0;
-
+        is_running = true;
 
         std::signal(SIGTERM, signal_handler);  // program termination
         std::signal(SIGINT, signal_handler);   // interrupt by user

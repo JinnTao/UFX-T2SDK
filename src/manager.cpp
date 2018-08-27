@@ -5,33 +5,34 @@
 manager::manager(){
 
     // config fix
-    lpConfig = nullptr;
-    lpConfig = NewConfig();
-    lpConfig->AddRef();// must do
+    lpConfig_ = nullptr;
+    lpConfig_ = NewConfig();
+    lpConfig_->AddRef();// must do
 }
 
 manager::~manager(){
-    lpConfig->Release();
+    lpConfig_->Release();
 
 }
 int32 manager::loadConf(){
     try{
         // o32 config
-        lpConfig->Load(riskManagerConf);
-        o32_config_.server_address = lpConfig->GetString("t2sdk", "servers", "");
-        o32_config_.fund_account = lpConfig->GetString("ufx", "fund_account", "");
-        o32_config_.passwd = lpConfig->GetString("ufx", "password", "");
-        o32_config_.license_file = lpConfig->GetString("t2sdk", "license_file", "license.dat");
-        o32_config_.login_name = lpConfig->GetString("t2sdk", "login_name", "riskManager");
+        lpConfig_->Load(riskManagerConf);
+        o32_config_.server_address = lpConfig_->GetString("t2sdk", "servers", "");
+        o32_config_.fund_account = lpConfig_->GetString("ufx", "fund_account", "");
+        o32_config_.passwd = lpConfig_->GetString("ufx", "password", "");
+        o32_config_.license_file = lpConfig_->GetString("t2sdk", "license_file", "license.dat");
+        o32_config_.login_name = lpConfig_->GetString("t2sdk", "login_name", "riskManager");
+        o32_config_.authorization_id = lpConfig_->GetString("uffx", "authorization_id", "hd123456");
 
         // ctp config
-        ctp_config_.brokerId = lpConfig->GetString("ctp_account", "brokerID", "");
-        ctp_config_.tdAddress = lpConfig->GetString("ctp_account", "tdAddress", "");
-        ctp_config_.passwd = lpConfig->GetString("ctp_account", "password", "");
-        ctp_config_.userId = lpConfig->GetString("ctp_account", "userID", "");
-        ctp_config_.td_flow_path = lpConfig->GetString("ctp_account", "tdFlowPath", "");
-        ctp_config_.md_flow_path = lpConfig->GetString("ctp_account", "mdFlowPath", "");
-        ctp_config_.mdAddress = lpConfig->GetString("ctp_account", "mdAddress ", "");
+        ctp_config_.brokerId = lpConfig_->GetString("ctp_account", "brokerID", "");
+        ctp_config_.tdAddress = lpConfig_->GetString("ctp_account", "tdAddress", "");
+        ctp_config_.passwd = lpConfig_->GetString("ctp_account", "password", "");
+        ctp_config_.userId = lpConfig_->GetString("ctp_account", "userID", "");
+        ctp_config_.td_flow_path = lpConfig_->GetString("ctp_account", "tdFlowPath", "");
+        ctp_config_.md_flow_path = lpConfig_->GetString("ctp_account", "mdFlowPath", "");
+        ctp_config_.mdAddress = lpConfig_->GetString("ctp_account", "mdAddress ", "");
         return 0;
 
     }
@@ -59,6 +60,14 @@ int32 manager::init(){
             RISK_LOG("Td init failed! Result:" << init_result);
             return -1;
         }
+
+        if (ufx_td_ptr_){
+            ufx_td_ptr_.reset();
+        }
+        ufx_td_ptr_ = std::make_shared<UFXTrade>();
+        init_result = ufx_td_ptr_->init(lpConfig_,o32_config_);
+
+
         return 0;
 
     }
@@ -76,11 +85,17 @@ int32 manager::init(){
 int32 manager::start(){
     int32 init_result;
     try{
-       // start up ctp td 
+        // start up ctp td 
         init_result = ctp_td_spi_->start();
         if (init_result != 0) {
             RISK_LOG("Td start failed! Result:" << init_result);
             return -1;
+        }
+        // start up ctp td 
+        init_result = ufx_td_ptr_->start();
+        if (init_result != 0) {
+            RISK_LOG("Ufx start failed! Result:" << init_result);
+            return -2;
         }
         return 0;
 

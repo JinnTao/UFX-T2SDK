@@ -62,7 +62,7 @@ void cTraderSpi::ReqQrySettlementInfoConfirm(){
     CThostFtdcQrySettlementInfoConfirmField req;
     memset(&req, 0, sizeof(req));
     strcpy_s(req.BrokerID, sizeof(TThostFtdcBrokerIDType), ctp_config_.brokerId.c_str());
-    strcpy_s(req.InvestorID, sizeof(TThostFtdcUserIDType), ctp_config_.userId.c_str());
+    strcpy_s(req.InvestorID, sizeof(TThostFtdcInvestorIDType), ctp_config_.userId.c_str());
     int iResult = ctpTdApi_->ReqQrySettlementInfoConfirm(&req, ++request_id_);
     RISK_LOG("ReqSettlementInforConrim,Result:" << iResult << ",requestId:" << request_id_ << "." );
 }
@@ -93,7 +93,7 @@ void cTraderSpi::ReqSettlementInfoConfirm() {
     CThostFtdcSettlementInfoConfirmField req;
     memset(&req, 0, sizeof(req));
     strcpy_s(req.BrokerID, sizeof(TThostFtdcBrokerIDType), ctp_config_.brokerId.c_str());
-    strcpy_s(req.InvestorID, sizeof(TThostFtdcUserIDType), ctp_config_.userId.c_str());
+    strcpy_s(req.InvestorID, sizeof(TThostFtdcInvestorIDType), ctp_config_.userId.c_str());
     int iResult = ctpTdApi_->ReqSettlementInfoConfirm(&req, ++request_id_); 
     RISK_LOG("ReqSettlementInforConrim,Result:" << iResult << ",requestId:" << request_id_ << ".");
 }
@@ -120,7 +120,7 @@ void cTraderSpi::ReqQryTradingAccount() {
     CThostFtdcQryTradingAccountField req;
     memset(&req, 0, sizeof(req));
     strcpy_s(req.BrokerID, sizeof TThostFtdcBrokerIDType, ctp_config_.brokerId.c_str());
-    strcpy_s(req.InvestorID, sizeof TThostFtdcUserIDType, ctp_config_.userId.c_str());
+    strcpy_s(req.InvestorID, sizeof TThostFtdcInvestorIDType, ctp_config_.userId.c_str());
     while (true) {
         int iResult = ctpTdApi_->ReqQryTradingAccount(&req, ++request_id_);
         RISK_LOG("ReqQryTradingAccount,Result:" << iResult << ",requestId:" << request_id_ << ".");
@@ -165,6 +165,9 @@ void cTraderSpi::OnRspQryTradingAccount(CThostFtdcTradingAccountField* pTradingA
         printf("   Commission:%.2f\n", m_accountInfo->Commission);
         printf("   Available:%.2f\n", m_accountInfo->Available);
         printf("   CurrMargin:%.2f\n", m_accountInfo->CurrMargin);
+        if (on_started_fun_){
+            on_started_fun_();
+        }
 
     }
 }
@@ -292,6 +295,7 @@ void cTraderSpi::clearCallBack() {
     on_connected_fun_ = {};
     on_disconnected_fun_ = {};
     on_login_fun_ = {};
+    on_started_fun_ = {};
 }
 
 

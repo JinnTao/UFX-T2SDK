@@ -40,6 +40,7 @@ public:
     int32 reConnect(const ctpConfig& ctp_config);
     int32 start();
     void clearCallBack();
+    void setOnFutureAccount(std::function<void(sTradingAccountInfo&)>);
 private:
  
 
@@ -58,7 +59,12 @@ private:
     std::function<void(int32)>                                                on_disconnected_fun_;
     std::function<void()>                                                     on_started_fun_;
     std::mutex                                                                mut_;
+    std::function<void(sTradingAccountInfo&)>                                 on_future_account;
+
+
     ctpConfig                                                                 ctp_config_;
+
+
 
 };
 using cTraderSpiPtr = std::shared_ptr<cTraderSpi>;

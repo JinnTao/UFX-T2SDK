@@ -1,5 +1,5 @@
 #include "UFXTrade.h"
-
+#include <sstream>
 using std::string;
 
 
@@ -306,7 +306,7 @@ int32 UFXTrade::start(){
         RISK_LOG("O32 login success.token no :" << user_token_);
 
         //查询账户信息
-        QueryFundaset(o32_fundasset_);
+        QueryFundaset();
 
         return start_result;
         
@@ -386,7 +386,7 @@ ErrorInfo UFXTrade::GetErrorInfo(IF2UnPacker* responseUnPacker)
     return errorInfo;
 }
 
-ErrorInfo UFXTrade::QueryFundaset(std::shared_ptr<o32_fundasset> fundassetValue){
+ErrorInfo UFXTrade::QueryFundaset(){
     IF2UnPacker*          responseUnPacker;
     IF2Packer* requestPacker = NewPacker(2);
     requestPacker->AddRef();
@@ -403,8 +403,8 @@ ErrorInfo UFXTrade::QueryFundaset(std::shared_ptr<o32_fundasset> fundassetValue)
     requestPacker->FreeMem(requestPacker->GetPackBuf());
     requestPacker->Release();
     // show
-    ShowPacket(responseUnPacker);
-
+    //ShowPacket(responseUnPacker);
+    makeFundaAsset(responseUnPacker, this->o32_fundasset_);
     return errorInfo;
 
 }
@@ -412,111 +412,87 @@ ErrorInfo UFXTrade::QueryFundaset(std::shared_ptr<o32_fundasset> fundassetValue)
 
 
 void UFXTrade::makeFundaAsset(IF2UnPacker *lpUnPacker,std::shared_ptr<o32_fundasset> pO32_fundasset){
-    int i = 0, t = 0, j = 0, k = 0;
-    string colName;
-    int intValue;
-    char charValue;
-    string stringValue;
-    double doubleValue;
-    for (i = 0; i < lpUnPacker->GetDatasetCount(); ++i)
-    {
-
-        lpUnPacker->SetCurrentDatasetByIndex(i);
-
-        // 打印所有记录
-        for (j = 0; j < (int)lpUnPacker->GetRowCount(); ++j)
-        {
-            printf("\t第%d/%d条记录：\r\n", j + 1, lpUnPacker->GetRowCount());
-            // 打印每条记录
-            for (k = 0; k < lpUnPacker->GetColCount(); ++k)
-            {
-                
-                switch (lpUnPacker->GetColType(k))
-                {
-                case 'I':
-                    colName = lpUnPacker->GetColName(k);
-                    intValue = lpUnPacker->GetIntByIndex(k);
-                    break;
-                case 'C':
-                    colName = lpUnPacker->GetColName(k);
-                    charValue = lpUnPacker->GetCharByIndex(k);
-                    break;
-                case 'S':
-                    colName = lpUnPacker->GetColName(k);
-                    stringValue = lpUnPacker->GetStrByIndex(k);
-                    break;
-
-                case 'F':
-                    colName = lpUnPacker->GetColName(k);
-                    stringValue = lpUnPacker->GetDoubleByIndex(k);
-                    break;
-
-                case 'R':
-                {
-                    int nLength = 0;
-                    void *lpData = lpUnPacker->GetRawByIndex(k, &nLength);
-                    switch (nLength){
-                    case 0:
-                        printf("\t【数据】%20s = %35s\r\n", lpUnPacker->GetColName(k), "(N/A)");
-                        break;
-                    default:
-                        printf("\t【数据】%20s = 0x", lpUnPacker->GetColName(k));
-                        for (t = nLength; t < 11; t++){
-                            printf("   ");
-                        }
-                        unsigned char *p = (unsigned char *)lpData;
-                        for (t = 0; t < nLength; t++){
-                            printf("%3x", *p++);
-                        }
-                        printf("\r\n");
-                        break;
-                    }
-                    // 对2进制数据进行处理
-                    break;
-                }
-
-                default:
-                    // 未知数据类型
-                    printf("未知数据类型。\n");
-                    break;
-                }
-                if (colName == "account_code"){
-                    pO32_fundasset->account_code = stringValue;
-                }
-                else if (colName == "currency_code"){
-                    pO32_fundasset->currency_code = stringValue;
-                }
-                else if (colName == "currency_code"){
-                    pO32_fundasset->currency_code = stringValue;
-                }
-                else if (colName == "currency_code"){
-                    pO32_fundasset->currency_code = stringValue;
-                }
-                else if (colName == "currency_code"){
-                    pO32_fundasset->currency_code = stringValue;
-                }
-                else if (colName == "currency_code"){
-                    pO32_fundasset->currency_code = stringValue;
-                }
-                else if (colName == "currency_code"){
-                    pO32_fundasset->currency_code = stringValue;
-                }
-                else if (colName == "currency_code"){
-                    pO32_fundasset->currency_code = stringValue;
-                }
-                else if (colName == "currency_code"){
-                    pO32_fundasset->currency_code = stringValue;
-                }
-                else if (colName == "currency_code"){
-                    pO32_fundasset->currency_code = stringValue;
-                }
-                else if (colName == "currency_code"){
-                    pO32_fundasset->currency_code = stringValue;
-                }
-
-
-            }
-            lpUnPacker->Next();
-        }
+    // check
+    if (o32_fund_asset_map_.size() != 0){
+        o32_fund_asset_map_.clear();
     }
+
+    //先取第二个结果集，如果失败则取第一个结果集
+    if (lpUnPacker->SetCurrentDatasetByIndex(1) == 0){
+        lpUnPacker->SetCurrentDatasetByIndex(0);
+    }
+    string fieldName;
+
+    unsigned int rowCount = 0;
+    int colCount = 0;
+    for (rowCount = 0; rowCount < lpUnPacker->GetRowCount(); rowCount++){
+        for (colCount = 0; colCount < lpUnPacker->GetColCount(); colCount++){
+            int type = lpUnPacker->GetColType(colCount);
+            std::stringstream value;
+            fieldName = lpUnPacker->GetColName(colCount);
+            //std::cout << fieldName << std::endl;
+            switch (type){
+            case 'I':
+                value << lpUnPacker->GetIntByIndex(colCount);
+                this->o32_fund_asset_map_.insert(std::make_pair(fieldName, value.str()));
+                break;
+            case 'C':
+                value << lpUnPacker->GetCharByIndex(colCount);
+                this->o32_fund_asset_map_.insert(std::make_pair(fieldName, value.str()));
+                break;
+            case 'S':
+                value << lpUnPacker->GetStrByIndex(colCount);
+                this->o32_fund_asset_map_.insert(std::make_pair(fieldName, value.str()));
+                break;
+            case 'F':
+                value << lpUnPacker->GetDoubleByIndex(colCount);
+                this->o32_fund_asset_map_.insert(std::make_pair(fieldName, value.str()));
+                break;
+            case 'R':
+                this->o32_fund_asset_map_.insert(std::make_pair("RawData", "RawData"));
+                break;
+            }
+        }
+        lpUnPacker->Next();
+    }
+}
+
+bool UFXTrade::ParseFundaAssetInfo_UFX(o32_fundasset *fundassetInfo, char *inDataStr){
+
+    memset(fundassetInfo, 0, sizeof(o32_fundasset));
+    BEGINPPARSE(o32_fundasset, fundassetInfo, inDataStr, UDP_DELIMITE_STR);
+    PARSEVALUE(account_code);
+    PARSEVALUE(currency_code);
+    PARSEVALUE(total_asset);
+    PARSEVALUE(nav);
+    PARSEVALUE(yesterday_nav);
+    PARSEVALUE(current_balance);
+    PARSEVALUE(begin_balance);
+    PARSEVALUE(futu_deposit_balance);
+    PARSEVALUE(occupy_deposit_balance);
+    PARSEVALUE(futu_asset);
+    PARSEVALUE(stock_asset);
+    PARSEVALUE(bond_asset);
+    PARSEVALUE(fund_asset);
+    PARSEVALUE(repo_asset);
+    PARSEVALUE(other_asset);
+    PARSEVALUE(fund_share);
+    PARSEVALUE(fund_net_asset);
+    PARSEVALUE(payable_balance);
+    PARSEVALUE(receivable_balance);
+    ENDPARSE;
+    return ISPACKValid;
+
+}
+
+std::map<std::string, string> UFXTrade::getFundAssetMap(){
+    return this->o32_fund_asset_map_;
+
+}
+
+void UFXTrade::ShowFundAssetMap(){
+    for (auto iter = o32_fund_asset_map_.begin(); iter != o32_fund_asset_map_.end(); iter++){
+        std::cout << iter->first << " " << iter->second << std::endl;
+    }
+
 }

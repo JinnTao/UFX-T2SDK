@@ -6,6 +6,7 @@
 #include <regex>
 #include <functional>
 #include <iostream>
+#include <mutex>
 
 cTraderSpi::cTraderSpi() {
 }
@@ -79,7 +80,9 @@ void cTraderSpi::OnRspQrySettlementInfoConfirm(CThostFtdcSettlementInfoConfirmFi
     }
     if (bIsLast) {
         if (pSettlementInfoConfirm) {
-            ReqQryTradingAccount();
+            if (on_started_fun_){
+                on_started_fun_();
+            }
         }else{
             ReqSettlementInfoConfirm();
         }
@@ -111,7 +114,9 @@ void cTraderSpi::OnRspSettlementInfoConfirm(CThostFtdcSettlementInfoConfirmField
             << nRequestID << ".");
     }
     if (bIsLast) {
-        ReqQryTradingAccount();
+        if (on_started_fun_){
+            on_started_fun_();
+        }
     }
 }
 
@@ -153,20 +158,8 @@ void cTraderSpi::OnRspQryTradingAccount(CThostFtdcTradingAccountField* pTradingA
         m_accountInfo->FrozenMargin   = pTradingAccount->FrozenMargin;
     }
     if (bIsLast){
-
-        printf("Account Summary:\n");
-        printf("   AccountID:%s\n", m_accountInfo->AccountID);
-        printf("   PreBalance:%.2f\n", m_accountInfo->PreBalance);
-        printf("   Balance:%.2f\n", m_accountInfo->Balance);
-        printf("   WithdrawQuota:%f\n", m_accountInfo->WithdrawQuota);
-        printf("   totalPnl:%.2f\n", m_accountInfo->CloseProfit + m_accountInfo->PositionProfit);
-        printf("   CloseProfit:%.2f\n", m_accountInfo->CloseProfit);
-        printf("   PositionProfit:%.2f\n", m_accountInfo->PositionProfit);
-        printf("   Commission:%.2f\n", m_accountInfo->Commission);
-        printf("   Available:%.2f\n", m_accountInfo->Available);
-        printf("   CurrMargin:%.2f\n", m_accountInfo->CurrMargin);
-        if (on_started_fun_){
-            on_started_fun_();
+        if (on_future_account){
+            on_future_account(*m_accountInfo);
         }
 
     }
@@ -305,4 +298,11 @@ bool cTraderSpi::IsErrorRspInfo(CThostFtdcRspInfoField* pRspInfo) {
         RISK_LOG("ErrorID: " << pRspInfo->ErrorID << ",ErrorMsg:" << pRspInfo->ErrorMsg << ".");
     }
     return bResult;
+}
+
+
+void cTraderSpi::setOnFutureAccount(std::function<void(sTradingAccountInfo&)>  future_account){
+    std::lock_guard<std::mutex> guard(mut_);
+    on_future_account = future_account;
+
 }

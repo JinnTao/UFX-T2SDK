@@ -2,9 +2,11 @@
 file(GLOB_RECURSE CPP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp *.ini) 
 file(GLOB_RECURSE HEADER_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.h)
 
+file(GLOB_RECURSE UI_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}  *.ui *.qrc *.rc)
+
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${CPP_FILES})
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${HEADER_FILES})
-
+source_group("Ui" FILES ${UI_FILES})
 
 include_directories(t2Sdk
                     x64-ctp
@@ -17,12 +19,18 @@ link_directories(x64-ctp
                  t2Sdk
 )
 
-add_executable(riskManager ${CPP_FILES} ${HEADER_FILES})
+set(RCC_FILES resources/riskManager.qrc)
+
+add_executable(riskManager ${CPP_FILES} ${HEADER_FILES} ${UI_FILES})
 
 target_link_libraries(riskManager
                         thosttraderapi
                         thostmduserapi
                         t2sdk
+                        ${Qt5Core_LIBRARIES}
+                        ${Qt5Gui_LIBRARIES}
+                        ${Qt5Sql_LIBRARIES}
+                        ${Qt5Widgets_LIBRARIES}
                         )
 
 

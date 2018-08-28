@@ -26,6 +26,10 @@ using std::string;
     TypeName() = delete;                         \
     DISALLOW_COPY_AND_ASSIGN(TypeName)
 
+char* strtok_t(char* instr, char* delimit, char** saveptr);
+char* hs_strncpy(char* dest, const char* src, size_t size);
+
+
 struct sTradingAccountInfo {
     char   BrokerID[32];
     char   AccountID[32];
@@ -41,8 +45,8 @@ struct sTradingAccountInfo {
 };
 struct o32_fundasset{
     
-    string account_code;//账户编号
-    string currency_code;
+    char account_code[32];//账户编号
+    char currency_code[3];
 
     double total_asset;
     double nav;//T-1日基金单位净值
@@ -106,20 +110,6 @@ public:
 #endif
 
 
-char* hs_strncpy(char* dest, const char* src, size_t size)
-{
-    if (dest == NULL)
-        return 0;
-    if (src == NULL)
-    {
-        dest[0] = 0;
-        return 0;
-    }
-    char* ret = strncpy(dest, src, size - 1);
-    dest[size - 1] = 0;
-    return ret;
-}
-
 
 #define	 UDP_DELIMITE_STR  "\1"
 #define	 UDP_DELIMITE_CHAR  '\1'
@@ -165,6 +155,9 @@ inline void ParseValue(unsigned int& val, int size, char* str)
         }
     }
 }
+
+#define PARSE_DATASET(outType,outdataPtr,inType,inName)  outType *__dataptr = outdataPtr; \
+    ParseValue(__dataptr->inName,sizeof(__dataptr->inName), inName)
 
 #define BEGINPPARSE(type,outdataPtr,indataStrptr, delim) bool __packValid = true; \
     do{   type* __dataptr = outdataPtr; \

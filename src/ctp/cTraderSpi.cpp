@@ -18,9 +18,8 @@ cTraderSpi::~cTraderSpi() {
 
 // After making a succeed connection with the CTP server, the client should send the login request to the CTP server.
 void cTraderSpi::OnFrontConnected() {
-    
+    //std::lock_guard<std::mutex> guard(mut_);
     RISK_LOG("cTraderSpi::OnFrontConnected.");
-    cout << "cTraderSpi::OnFrontConnected." << endl;
     if (on_connected_fun_) {
         on_connected_fun_();
     }
@@ -29,6 +28,7 @@ void cTraderSpi::OnFrontConnected() {
 // When the connection between client and the CTP server disconnected, the following function will be called
 void cTraderSpi::OnFrontDisconnected(int nReason) {
     // in this case, API will reconnect, the client application can ignore this
+    //std::lock_guard<std::mutex> guard(mut_);
     RISK_LOG("cTraderSpi::OnFrontDisconnected,Reason: "<< nReason);
     if (on_disconnected_fun_) {
         on_disconnected_fun_(nReason);
@@ -53,6 +53,7 @@ void cTraderSpi::OnRspUserLogin(CThostFtdcRspUserLoginField* pRspUserLogin,
         RISK_LOG("cTraderSpi::OnRspUserLogin,TradeDate: " << pRspUserLogin->TradingDay << "SessionID: " << pRspUserLogin->SessionID << "FrontID: " << pRspUserLogin->FrontID);
     }
     if (bIsLast) {
+        std::lock_guard<std::mutex> guard(mut_);
         if (on_login_fun_) {
             on_login_fun_( pRspUserLogin, pRspInfo);
         }
@@ -80,6 +81,7 @@ void cTraderSpi::OnRspQrySettlementInfoConfirm(CThostFtdcSettlementInfoConfirmFi
     }
     if (bIsLast) {
         if (pSettlementInfoConfirm) {
+            std::lock_guard<std::mutex> guard(mut_);
             if (on_started_fun_){
                 on_started_fun_();
             }
@@ -179,6 +181,7 @@ bool cTraderSpi::IsFlowControl(int iResult) {
 int32 cTraderSpi::init(const ctpConfig& ctp_config) {
     // 1.create td api instance
     {
+        this->clearCallBack();
         auto tdapi = CThostFtdcTraderApi::CreateFtdcTraderApi(ctp_config.td_flow_path.c_str());
         if (tdapi == nullptr) {
             RISK_LOG("CreateFtdcTraderApi instance failed");
@@ -251,6 +254,7 @@ int32 cTraderSpi::init(const ctpConfig& ctp_config) {
     {
         this->clearCallBack();
         on_disconnected_fun_ = [](int32 reason) {
+            global::need_reconnect.store(true);
             RISK_LOG("Td disconnect! reason:"<< reason);
         };
     }
@@ -284,7 +288,7 @@ int32 cTraderSpi::start() {
 }
 
 void cTraderSpi::clearCallBack() {
-    std::lock_guard<std::mutex> guard(mut_);
+    //std::lock_guard<std::mutex> guard(mut_);
     on_connected_fun_ = {};
     on_disconnected_fun_ = {};
     on_login_fun_ = {};
@@ -302,7 +306,7 @@ bool cTraderSpi::IsErrorRspInfo(CThostFtdcRspInfoField* pRspInfo) {
 
 
 void cTraderSpi::setOnFutureAccount(std::function<void(sTradingAccountInfo&)>  future_account){
-    std::lock_guard<std::mutex> guard(mut_);
+    //std::lock_guard<std::mutex> guard(mut_);
     on_future_account = future_account;
 
 }

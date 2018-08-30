@@ -4,13 +4,20 @@ using std::string;
 
 
 UFXTrade::UFXTrade(){
-    lpConfig_ = nullptr;
+
     lpConnection_ = nullptr;
 
     o32_fundasset_ = std::make_shared<o32_fundasset>();
+
+    on_disconnect_ = {};
 }
 UFXTrade::~UFXTrade(){
+    //std::lock_guard<std::mutex> guard(mut_);
+    if (lpConnection_ != nullptr){
+        lpConnection_->Release();
+    }
     
+   
 }
 unsigned long UFXTrade::QueryInterface(const char *iid, IKnown **ppv)
 {
@@ -47,7 +54,13 @@ void UFXTrade::OnRegister(CConnectionInterface *lpConnection)
 //断开连接后会调用Onclose函数，提示连接断开
 void UFXTrade::OnClose(CConnectionInterface *lpConnection)
 {
+    //std::lock_guard<std::mutex> guard(mut_);
+    if (on_disconnect_){
+        on_disconnect_();
+
+    }
     puts("UFXTrade::OnClose");
+    //delete this;
 }
 
 void UFXTrade::OnSent(CConnectionInterface *lpConnection, int hSend, void *reserved1, void *reserved2, int nQueuingData)
@@ -161,7 +174,7 @@ void UFXTrade::Reserved7()
 
 void UFXTrade::SetConfigInterface(CConfigInterface* lpConfig)
 {
-    lpConfig_ = lpConfig;
+    //lpConfig_ = lpConfig;
     puts("UFXTrade::SetConfigInterface");
 }
 
@@ -247,6 +260,7 @@ void UFXTrade::ShowPacket(IF2UnPacker *lpUnPacker){
 }
 
 int32 UFXTrade::init(CConfigInterface* lpConfig,o32Config o32_config){
+
     int32 init_result = 0;
     try{
         if (lpConnection_ != nullptr){
@@ -269,6 +283,13 @@ int32 UFXTrade::init(CConfigInterface* lpConfig,o32Config o32_config){
             return -2;
         }
         RISK_LOG("O32 connect success");
+
+        //call back 
+        {
+            on_disconnect_ = [](){
+                global::need_reconnect.store(true);
+            };
+        }
         
         o32_config_ = o32_config;
 
@@ -305,8 +326,8 @@ int32 UFXTrade::start(){
 
         RISK_LOG("O32 login success.token no :" << user_token_);
 
-        //查询账户信息
-        QueryFundaset();
+        ////查询账户信息
+        //QueryFundaset();
 
         return start_result;
         
@@ -387,6 +408,7 @@ ErrorInfo UFXTrade::GetErrorInfo(IF2UnPacker* responseUnPacker)
 }
 
 ErrorInfo UFXTrade::QueryFundaset(){
+
     IF2UnPacker*          responseUnPacker;
     IF2Packer* requestPacker = NewPacker(2);
     requestPacker->AddRef();
@@ -403,21 +425,19 @@ ErrorInfo UFXTrade::QueryFundaset(){
     requestPacker->FreeMem(requestPacker->GetPackBuf());
     requestPacker->Release();
     // show
-    //ShowPacket(responseUnPacker);
-    makeFundaAsset(responseUnPacker, this->o32_fundasset_);
+    makeFundaAsset(responseUnPacker,"total_");
     return errorInfo;
 
 }
 
 
 
-void UFXTrade::makeFundaAsset(IF2UnPacker *lpUnPacker,std::shared_ptr<o32_fundasset> pO32_fundasset){
-    // check
-    if (o32_fund_asset_map_.size() != 0){
-        o32_fund_asset_map_.clear();
-    }
-
+void UFXTrade::makeFundaAsset(IF2UnPacker *lpUnPacker,std::string prefix){
+    bool isEmpty = lpUnPacker->IsEmpty();
     //先取第二个结果集，如果失败则取第一个结果集
+    if (isEmpty){
+        return;
+    }
     if (lpUnPacker->SetCurrentDatasetByIndex(1) == 0){
         lpUnPacker->SetCurrentDatasetByIndex(0);
     }
@@ -434,24 +454,22 @@ void UFXTrade::makeFundaAsset(IF2UnPacker *lpUnPacker,std::shared_ptr<o32_fundas
             switch (type){
             case 'I':
                 value << lpUnPacker->GetIntByIndex(colCount);
-                this->o32_fund_asset_map_.insert(std::make_pair(fieldName, value.str()));
                 break;
             case 'C':
                 value << lpUnPacker->GetCharByIndex(colCount);
-                this->o32_fund_asset_map_.insert(std::make_pair(fieldName, value.str()));
                 break;
             case 'S':
                 value << lpUnPacker->GetStrByIndex(colCount);
-                this->o32_fund_asset_map_.insert(std::make_pair(fieldName, value.str()));
                 break;
             case 'F':
                 value << lpUnPacker->GetDoubleByIndex(colCount);
-                this->o32_fund_asset_map_.insert(std::make_pair(fieldName, value.str()));
                 break;
             case 'R':
-                this->o32_fund_asset_map_.insert(std::make_pair("RawData", "RawData"));
+                value << "RawData";
+                //this->o32_fund_asset_map_.insert(std::make_pair("RawData", "RawData"));
                 break;
             }
+            this->o32_fund_asset_map_[prefix+fieldName] = value.str();
         }
         lpUnPacker->Next();
     }
@@ -494,5 +512,59 @@ void UFXTrade::ShowFundAssetMap(){
     for (auto iter = o32_fund_asset_map_.begin(); iter != o32_fund_asset_map_.end(); iter++){
         std::cout << iter->first << " " << iter->second << std::endl;
     }
+
+}
+
+
+// 查询期货保证金
+ErrorInfo UFXTrade::QueryFutuBail(){
+    IF2UnPacker*          responseUnPacker;
+    IF2Packer* requestPacker = NewPacker(2);
+    requestPacker->AddRef();
+    requestPacker->BeginPack();
+    requestPacker->AddField("user_token", 'S', 512);
+    requestPacker->AddField("account_code", 'S', 32);
+    requestPacker->AddField("asset_no", 'S', 32);
+
+    requestPacker->AddStr(user_token_.c_str());
+    requestPacker->AddStr(o32_config_.fund_account.c_str());
+    requestPacker->AddStr(o32_config_.fund_account.c_str());
+
+    requestPacker->EndPack();
+
+    ErrorInfo errorInfo = CallService(this->lpConnection_, 34003, requestPacker, &responseUnPacker);
+    requestPacker->FreeMem(requestPacker->GetPackBuf());
+    requestPacker->Release();
+    // show
+    makeFundaAsset(responseUnPacker,"future_");
+    return errorInfo;
+}
+// 查询期权保证金
+ErrorInfo UFXTrade::QueryOptionBail(){
+
+    IF2UnPacker*          responseUnPacker;
+    IF2Packer* requestPacker = NewPacker(2);
+    requestPacker->AddRef();
+    requestPacker->BeginPack();
+    requestPacker->AddField("user_token", 'S', 512);
+    requestPacker->AddField("account_code", 'S', 32);
+    requestPacker->AddField("asset_no", 'S', 32);
+    requestPacker->AddField("market_no", 'S', 3);
+
+    requestPacker->AddStr(user_token_.c_str());
+    requestPacker->AddStr(o32_config_.fund_account.c_str());
+    requestPacker->AddStr(o32_config_.fund_account.c_str());
+    requestPacker->AddStr("1");
+
+    requestPacker->EndPack();
+
+    ErrorInfo errorInfo = CallService(this->lpConnection_, 34004, requestPacker, &responseUnPacker);
+    requestPacker->FreeMem(requestPacker->GetPackBuf());
+    requestPacker->Release();
+    // show
+    makeFundaAsset(responseUnPacker,"option_");
+    return errorInfo;
+
+
 
 }

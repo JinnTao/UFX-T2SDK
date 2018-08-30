@@ -13,11 +13,15 @@ public:
     int32 loadConf();
     int32 init();
     int32 start();
+    int32 reConnect();
+    void reFresh();
 
     int32 monitor_process();
     void setStatus();
     void setFutureAccount(sTradingAccountInfo&);
     void showFutureAccount(sTradingAccountInfo *m_accountInfo);
+    sTradingAccountInfo* getFutureInfo();
+    o32_account_info_map getO32Info();
 private:
 
 
@@ -38,7 +42,7 @@ private:
 
     //ctp account message
     sTradingAccountInfo future_account;
-    std::map<std::string, std::string> o32_account;
+    o32_account_info_map o32_account;
 
 
 

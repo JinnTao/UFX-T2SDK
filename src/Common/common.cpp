@@ -1,5 +1,9 @@
 #include "common.h"
 
+namespace global{
+    std::atomic<bool> need_reconnect(false);
+}
+
 char* strtok_t(char* instr, char* delimit, char** saveptr)
 {
     char* sstr = instr;

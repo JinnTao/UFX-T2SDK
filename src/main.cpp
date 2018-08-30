@@ -4,14 +4,21 @@
 
 
 #include "RiskManagerApp.h"
-
+#include <map>
 #include <QtWidgets/QApplication>
+#include <qmetatype.h>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    // register meta type
+    qRegisterMetaType<o32_account_info_map>("o32_account_info_map");
+    qRegisterMetaType<sTradingAccountInfo>("sTradingAccountInfo");
+
     RiskManagerApp w;
     w.show();
+
     return a.exec();
 }
 

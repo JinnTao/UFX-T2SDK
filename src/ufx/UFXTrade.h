@@ -1,6 +1,8 @@
 #include <string>
 #include <memory>
 #include <map>
+#include <functional>
+#include <mutex>
 
 #include "t2sdk_interface.h"
 #include "common.h"
@@ -47,14 +49,21 @@ public:
     ErrorInfo GetErrorInfo(IF2UnPacker* responseUnPacker);
     // 查询账户资金情况
     ErrorInfo QueryFundaset();
-    void makeFundaAsset(IF2UnPacker *lpUnPacker,std::shared_ptr<o32_fundasset> pO32_fundasset);
+
+    // 查询期货保证金
+    ErrorInfo QueryFutuBail();
+    // 查询期权保证金
+    ErrorInfo QueryOptionBail();
+    void makeFundaAsset(IF2UnPacker *lpUnPacker, std::string prefix);
+
+
     bool ParseFundaAssetInfo_UFX(o32_fundasset *fundassetInfo, char *inDataStr);
     std::map<std::string, string> getFundAssetMap();
     void ShowFundAssetMap();
 private:
     IF2Packer* MakeLoginPacker(std::string operatorNo, std::string password);
 private:
-    CConfigInterface* lpConfig_;
+
     CConnectionInterface *lpConnection_;
     
     char pout_[255];
@@ -75,5 +84,9 @@ private:
 
     std::shared_ptr<o32_fundasset> o32_fundasset_;
     std::map<std::string, string> o32_fund_asset_map_;
+    std::function<void()> on_disconnect_;
+
+    std::mutex mut_;
+    
 };
 using UFXTradePtr = std::shared_ptr<UFXTrade>;

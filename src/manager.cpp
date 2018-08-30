@@ -9,7 +9,12 @@ manager::manager(){
     // config fix
     lpConfig_ = nullptr;
     lpConfig_ = NewConfig();
-    lpConfig_->AddRef();// must do
+    lpConfig_->AddRef();// must do.
+    memset(&future_account, 0, sizeof(sTradingAccountInfo));
+    if (o32_account.size() != 0){
+        o32_account.clear();
+    }
+    
 }
 
 manager::~manager(){
@@ -68,8 +73,12 @@ int32 manager::init(){
         }
         ufx_td_ptr_ = std::make_shared<UFXTrade>();
         init_result = ufx_td_ptr_->init(lpConfig_,o32_config_);
-
-
+        if (init_result != 0){
+            RISK_LOG("UFX init failed! Result:" << init_result);
+            return -2;
+        }
+        // global connect set
+        global::need_reconnect.store(false);
         return 0;
 
     }
@@ -101,7 +110,7 @@ int32 manager::start(){
         }
 
         // start monitor
-        inner_thread_ = std::thread(&manager::monitor_process, this);
+        // inner_thread_ = std::thread(&manager::monitor_process, this);
 
 
         return 0;
@@ -118,38 +127,37 @@ int32 manager::start(){
 }
 
 int32 manager::monitor_process(){
-    while (is_running){
-        //obtain future account message
-        std::promise<bool> obtain_future_account;
-        std::future<bool> is_obtain_future_account = obtain_future_account.get_future();
 
-        this->ctp_td_spi_->setOnFutureAccount([&obtain_future_account,this](sTradingAccountInfo& tradeInfo){
-            this->setFutureAccount(tradeInfo);
-            obtain_future_account.set_value(true);
-        });
-        this->ctp_td_spi_->ReqQryTradingAccount();
-        if (is_obtain_future_account.valid()){
-            auto obtain_result = is_obtain_future_account.wait_for(std::chrono::seconds(10));
-            if (obtain_result != std::future_status::ready || is_obtain_future_account.get() != true) {
-                std::cout << " future account no refresh,please check internet:" << std::endl;
-            }
-            else{
-                std::cout << " future account refresh:" << std::endl;
-            }
+    //obtain future account message
+    std::promise<bool> obtain_future_account;
+    std::future<bool> is_obtain_future_account = obtain_future_account.get_future();
+
+    this->ctp_td_spi_->setOnFutureAccount([&obtain_future_account,this](sTradingAccountInfo& tradeInfo){
+        this->setFutureAccount(tradeInfo);
+        obtain_future_account.set_value(true);
+    });
+    this->ctp_td_spi_->ReqQryTradingAccount();
+    if (is_obtain_future_account.valid()){
+        auto obtain_result = is_obtain_future_account.wait_for(std::chrono::seconds(10));
+        if (obtain_result != std::future_status::ready || is_obtain_future_account.get() != true) {
+            std::cout << " future account no refresh,please check internet:" << std::endl;
         }
-        this->showFutureAccount(&(this->future_account));
-        // obtain o32 account messgae
-        this->ufx_td_ptr_->QueryFundaset();// should check internet connect
-        this->o32_account = ufx_td_ptr_->getFundAssetMap();
-        this->ufx_td_ptr_->ShowFundAssetMap();
-
-        // check risk 
-
-
-
-    
-        std::this_thread::sleep_for(std::chrono::seconds(timespan));
+        else{
+            std::cout << " future account refresh:" << std::endl;
+        }
     }
+    //this->showFutureAccount(&(this->future_account));
+
+
+    // obtain o32 account messgae
+    this->ufx_td_ptr_->QueryFundaset();
+    this->ufx_td_ptr_->QueryFutuBail();
+    this->ufx_td_ptr_->QueryOptionBail();
+
+    this->o32_account = ufx_td_ptr_->getFundAssetMap();
+    //this->ufx_td_ptr_->ShowFundAssetMap();
+
+
     return 0;
 
 }
@@ -174,4 +182,52 @@ void manager::showFutureAccount(sTradingAccountInfo *m_accountInfo){
     printf("   Available:%.2f\n", m_accountInfo->Available);
     printf("   CurrMargin:%.2f\n", m_accountInfo->CurrMargin);
 
+}
+
+
+sTradingAccountInfo* manager::getFutureInfo(){
+    return &future_account;
+}
+o32_account_info_map manager::getO32Info(){
+    return o32_account;
+
+}
+int32 manager::reConnect(){
+    int32 reConnect_result = 0;
+    try{
+        reFresh();
+
+        reConnect_result = loadConf();
+        if (reConnect_result != 0){
+            // Reconnect Failed;
+            return -1;
+        }
+
+        reConnect_result = init();
+        if (reConnect_result != 0){
+            // Reconnect Failed;
+            return -2;
+        }
+        reConnect_result = start(); 
+        if (reConnect_result != 0){
+            // Restart Failed;
+            return -3;
+        }
+        global::need_reconnect.store(false);
+        return 0;
+    
+    }
+    catch (std::exception e){
+        // other Error
+        return -4;
+    }
+}
+void manager::reFresh(){
+    // config fix
+    if (lpConfig_ != nullptr){
+        lpConfig_->Release();
+    }
+    lpConfig_ = nullptr;
+    lpConfig_ = NewConfig();
+    lpConfig_->AddRef();// must do.
 }

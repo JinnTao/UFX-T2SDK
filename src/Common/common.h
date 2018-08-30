@@ -4,7 +4,10 @@
 #include <cstdint>
 #include <iostream>
 #include <string>
-
+#include <map>
+#include <csignal>
+#include <atomic>
+#include "qmetatype.h"
 using int32 = int32_t;
 using int64 = int64_t;
 using uint32 = uint32_t;
@@ -29,7 +32,9 @@ using std::string;
 char* strtok_t(char* instr, char* delimit, char** saveptr);
 char* hs_strncpy(char* dest, const char* src, size_t size);
 
-
+namespace global{
+    extern std::atomic<bool> need_reconnect;
+}
 struct sTradingAccountInfo {
     char   BrokerID[32];
     char   AccountID[32];
@@ -182,17 +187,12 @@ inline void ParseValue(unsigned int& val, int size, char* str)
 #define ISPACKValid  __packValid
 
 
+using o32_account_info_map = std::map<std::string, std::string>;
+
+Q_DECLARE_METATYPE(std::string)
+Q_DECLARE_METATYPE(o32_account_info_map)
+Q_DECLARE_METATYPE(sTradingAccountInfo)
+
+#endif
 
 
-
-
-
-
-
-
-
-
-
-
-
-#endif  // _COMMON_H_

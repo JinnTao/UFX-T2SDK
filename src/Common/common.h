@@ -47,6 +47,7 @@ struct sTradingAccountInfo {
     double PositionProfit;
     double Commission;
     double FrozenMargin;
+    string updateTime;
 };
 struct o32_fundasset{
     
@@ -95,6 +96,7 @@ struct o32Config {
     string fund_account;
     string passwd;
     string authorization_id;
+    string asset_no;
     o32Config() { memset(this, 0, sizeof(o32Config)); }
     void reset() { memset(this, 0, sizeof(o32Config)); }
 };

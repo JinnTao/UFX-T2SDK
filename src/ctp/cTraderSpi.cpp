@@ -11,6 +11,7 @@
 cTraderSpi::cTraderSpi() {
 }
 cTraderSpi::~cTraderSpi() {
+    clearCallBack();
     if (m_accountInfo){
         delete m_accountInfo;
     }
@@ -223,6 +224,7 @@ int32 cTraderSpi::init(const ctpConfig& ctp_config) {
         std::future<bool>  is_logined = login_result.get_future();
         on_login_fun_ = [&login_result](CThostFtdcRspUserLoginField* login, CThostFtdcRspInfoField* info) {
             if (info->ErrorID == 0) {
+                
                 login_result.set_value(true);
             }
             else {

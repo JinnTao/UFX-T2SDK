@@ -528,7 +528,7 @@ ErrorInfo UFXTrade::QueryFutuBail(){
 
     requestPacker->AddStr(user_token_.c_str());
     requestPacker->AddStr(o32_config_.fund_account.c_str());
-    requestPacker->AddStr(o32_config_.fund_account.c_str());
+    requestPacker->AddStr(o32_config_.asset_no.c_str());
 
     requestPacker->EndPack();
 
@@ -553,8 +553,8 @@ ErrorInfo UFXTrade::QueryOptionBail(){
 
     requestPacker->AddStr(user_token_.c_str());
     requestPacker->AddStr(o32_config_.fund_account.c_str());
-    requestPacker->AddStr(o32_config_.fund_account.c_str());
-    requestPacker->AddStr("1");
+    requestPacker->AddStr(o32_config_.asset_no.c_str());
+    requestPacker->AddStr("1");// 默认上交所
 
     requestPacker->EndPack();
 

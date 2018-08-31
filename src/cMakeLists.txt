@@ -1,5 +1,5 @@
 
-file(GLOB_RECURSE CPP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp *.ini) 
+file(GLOB_RECURSE CPP_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp *.ini *.cc) 
 file(GLOB_RECURSE HEADER_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.h)
 
 file(GLOB_RECURSE UI_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}  *.ui *.qrc *.rc)
@@ -14,6 +14,8 @@ include_directories(t2Sdk
                     ctp
                     ufx
                     Common
+                    easylogging
+                    core
                     )
 link_directories(x64-ctp
                  t2Sdk

@@ -15,7 +15,6 @@ public:
 
 public slots:
     void on_startMonitorPushButton_clicked();
-    void on_reStartPushButton_clicked();
     void handleResults(sTradingAccountInfo futureInfo, o32_account_info_map o32_account_info);
     void handleStatusMsg(QString msg);
 private:
@@ -23,8 +22,17 @@ private:
     // risk control parameters
     riskerThread inner_thread;
 
-
-    double warning_level_;
-    double stop_level_;
+    // fixed income
+    double fixed_warning_level_;
+    double fixed_stop_level_;
+    // future & derivative
+    double futureAndDeri_warning_level_;
+    double futureAndDeri_stop_level_;
+    // future assets
+    double future_warning_level_;
+    double future_stop_level_;
+    // stock assets
+    double stock_warning_level_;
+    double stock_stop_level_;
 
 };

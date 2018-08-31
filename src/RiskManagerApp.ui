@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>877</width>
-    <height>674</height>
+    <width>890</width>
+    <height>677</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -23,13 +23,13 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>QtGuiApplication1</string>
+   <string>天风证券 联合风控 投研三部</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QLabel" name="RiskControlLabel">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>340</x>
       <y>10</y>
       <width>131</width>
       <height>31</height>
@@ -55,39 +55,897 @@
      <string>联合风控端</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QTextBrowser" name="loggingBrowser">
     <property name="geometry">
      <rect>
-      <x>91</x>
-      <y>201</y>
-      <width>96</width>
-      <height>16</height>
+      <x>300</x>
+      <y>420</y>
+      <width>551</width>
+      <height>201</height>
      </rect>
     </property>
-    <property name="text">
-     <string>基金 账户 信息：</string>
-    </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>530</x>
-      <y>201</y>
-      <width>96</width>
-      <height>16</height>
+      <x>523</x>
+      <y>121</y>
+      <width>161</width>
+      <height>111</height>
      </rect>
     </property>
-    <property name="text">
-     <string>融航 账户 信息：</string>
+    <property name="minimumSize">
+     <size>
+      <width>161</width>
+      <height>101</height>
+     </size>
     </property>
+    <property name="title">
+     <string>固定收益类资产</string>
+    </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>31</y>
+       <width>130</width>
+       <height>58</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_8">
+      <property name="spacing">
+       <number>16</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>&lt;预警线</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QDoubleSpinBox" name="fixedWarnLevelSpinBox">
+        <property name="maximum">
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.850000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>&lt;平仓线</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="fixedStopLevelDoubleSpinBox">
+        <property name="maximum">
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.800000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>50</y>
-      <width>710</width>
-      <height>30</height>
+      <x>690</x>
+      <y>121</y>
+      <width>161</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>161</width>
+      <height>101</height>
+     </size>
+    </property>
+    <property name="title">
+     <string>商品以及金融衍生品类资产</string>
+    </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>31</y>
+       <width>112</width>
+       <height>58</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_7">
+      <property name="spacing">
+       <number>16</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_20">
+        <property name="text">
+         <string>&gt;预警线</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QDoubleSpinBox" name="fAndDWarnLevelSpinBox">
+        <property name="maximum">
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.150000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_21">
+        <property name="text">
+         <string>&gt;平仓线</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="fAndDstopLevelDoubleSpinBox">
+        <property name="maximum">
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.200000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>523</x>
+      <y>240</y>
+      <width>161</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>161</width>
+      <height>101</height>
+     </size>
+    </property>
+    <property name="title">
+     <string>商品期货资产</string>
+    </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>31</y>
+       <width>112</width>
+       <height>58</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <property name="spacing">
+       <number>16</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_22">
+        <property name="text">
+         <string>&gt;预警线</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QDoubleSpinBox" name="futureWarnLevelSpinBox">
+        <property name="maximum">
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.040000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_23">
+        <property name="text">
+         <string>&gt;平仓线</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="futurestopLevelDoubleSpinBox">
+        <property name="maximum">
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.050000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <zorder>futurestopLevelDoubleSpinBox</zorder>
+    <zorder>label_22</zorder>
+    <zorder>futureWarnLevelSpinBox</zorder>
+    <zorder>label_23</zorder>
+    <zorder></zorder>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_4">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>240</y>
+      <width>161</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>161</width>
+      <height>101</height>
+     </size>
+    </property>
+    <property name="title">
+     <string>权益类资产</string>
+    </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>112</width>
+       <height>58</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_6">
+      <property name="spacing">
+       <number>16</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_26">
+        <property name="text">
+         <string>&gt;预警线</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QDoubleSpinBox" name="stockWarnLevelSpinBox">
+        <property name="maximum">
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.150000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_27">
+        <property name="text">
+         <string>&gt;平仓线</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="stockStopLevelDoubleSpinBox">
+        <property name="maximum">
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.200000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_5">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>120</y>
+      <width>271</width>
+      <height>501</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>基金账户信息</string>
+    </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>31</y>
+       <width>241</width>
+       <height>451</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <property name="verticalSpacing">
+       <number>7</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="O32Account">
+        <property name="text">
+         <string>账户编号</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="account_code">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="O32Account_2">
+        <property name="text">
+         <string>币种</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="currency_code">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="O32Account_4">
+        <property name="text">
+         <string>总资产</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="total_asset">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="O32Account_5">
+        <property name="text">
+         <string>T-1日基金单位净值</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="nav">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="O32Account_7">
+        <property name="text">
+         <string>昨日单位净值</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLabel" name="yesterday_nav">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="O32Account_3">
+        <property name="text">
+         <string>当前余额</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="current_balance">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="O32Account_6">
+        <property name="text">
+         <string>期初余额</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLabel" name="begin_balance">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="O32Account_8">
+        <property name="text">
+         <string>期货保证金账户余额</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QLabel" name="futu_deposit_balance">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="O32Account_9">
+        <property name="text">
+         <string>占用保证金</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QLabel" name="occupy_deposit_balance">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="O32Account_10">
+        <property name="text">
+         <string>期货资产(合约价值)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QLabel" name="futu_asset">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="O32Account_11">
+        <property name="text">
+         <string>股票资产</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="QLabel" name="stock_asset">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="O32Account_23">
+        <property name="text">
+         <string>债券资产</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="QLabel" name="bond_asset">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="0">
+       <widget class="QLabel" name="O32Account_24">
+        <property name="text">
+         <string>现金资产</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="1">
+       <widget class="QLabel" name="fund_asset">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="0">
+       <widget class="QLabel" name="O32Account_25">
+        <property name="text">
+         <string>回购资产</string>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="1">
+       <widget class="QLabel" name="repo_asset">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="0">
+       <widget class="QLabel" name="O32Account_26">
+        <property name="text">
+         <string>其他资产</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="1">
+       <widget class="QLabel" name="other_asset">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="0">
+       <widget class="QLabel" name="O32Account_27">
+        <property name="text">
+         <string>基金总份额</string>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="1">
+       <widget class="QLabel" name="fund_share">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="0">
+       <widget class="QLabel" name="O32Account_28">
+        <property name="text">
+         <string>基金净资产</string>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="1">
+       <widget class="QLabel" name="fund_net_asset">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="17" column="0">
+       <widget class="QLabel" name="asset_no_label">
+        <property name="text">
+         <string>资产单元号</string>
+        </property>
+       </widget>
+      </item>
+      <item row="17" column="1">
+       <widget class="QLabel" name="asset_no">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="18" column="0">
+       <widget class="QLabel" name="O32Account_31">
+        <property name="text">
+         <string>期货占用保证金</string>
+        </property>
+       </widget>
+      </item>
+      <item row="18" column="1">
+       <widget class="QLabel" name="futureOccupyBalance">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="19" column="0">
+       <widget class="QLabel" name="O32Account_32">
+        <property name="text">
+         <string>期货可用保证金</string>
+        </property>
+       </widget>
+      </item>
+      <item row="19" column="1">
+       <widget class="QLabel" name="futureEnableBalance">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="20" column="0">
+       <widget class="QLabel" name="O32Account_34">
+        <property name="text">
+         <string>期权占用保证金</string>
+        </property>
+       </widget>
+      </item>
+      <item row="20" column="1">
+       <widget class="QLabel" name="optionOccupyBalance">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="21" column="0">
+       <widget class="QLabel" name="O32Account_33">
+        <property name="text">
+         <string>期权可用保证金</string>
+        </property>
+       </widget>
+      </item>
+      <item row="21" column="1">
+       <widget class="QLabel" name="optionEnableBalance">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="22" column="0">
+       <widget class="QLabel" name="O32Account_29">
+        <property name="minimumSize">
+         <size>
+          <width>108</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>ErrorCode</string>
+        </property>
+       </widget>
+      </item>
+      <item row="22" column="1">
+       <widget class="QLabel" name="ErrorCode">
+        <property name="minimumSize">
+         <size>
+          <width>108</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="23" column="0">
+       <widget class="QLabel" name="O32Account_30">
+        <property name="minimumSize">
+         <size>
+          <width>108</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>ErrorMsg</string>
+        </property>
+       </widget>
+      </item>
+      <item row="23" column="1">
+       <widget class="QLabel" name="ErrorMsg">
+        <property name="minimumSize">
+         <size>
+          <width>108</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_6">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>120</y>
+      <width>211</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>融航账户信息</string>
+    </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>22</y>
+       <width>190</width>
+       <height>204</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_9">
+      <property name="horizontalSpacing">
+       <number>16</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>7</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="O32Account_12">
+        <property name="text">
+         <string>经纪公司代码</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="BrokerID">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="O32Account_13">
+        <property name="text">
+         <string>投资者账户</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="AccountID">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="O32Account_14">
+        <property name="text">
+         <string>上次结算准备金</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="PreBalance">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="O32Account_15">
+        <property name="text">
+         <string>期货结算准备金</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="Balance">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="O32Account_16">
+        <property name="text">
+         <string>可用资金</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLabel" name="Available">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="O32Account_17">
+        <property name="text">
+         <string>可取资金</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="WithdrawQuota">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="O32Account_18">
+        <property name="text">
+         <string>当前保证金总额</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLabel" name="CurrMargin">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="O32Account_19">
+        <property name="text">
+         <string>平仓盈亏</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QLabel" name="CloseProfit">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="O32Account_20">
+        <property name="text">
+         <string>持仓盈亏</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QLabel" name="PositionProfit">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="O32Account_21">
+        <property name="text">
+         <string>手续费</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QLabel" name="Commission">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="O32Account_22">
+        <property name="text">
+         <string>冻结的保证金</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="QLabel" name="FrozenMargin">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="layoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>360</y>
+      <width>300</width>
+      <height>25</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -109,154 +967,123 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>预警线</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QDoubleSpinBox" name="warnLevelSpinBox">
-       <property name="maximum">
-        <double>1.000000000000000</double>
-       </property>
-       <property name="singleStep">
-        <double>0.010000000000000</double>
-       </property>
-       <property name="value">
-        <double>0.150000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>平仓线</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QDoubleSpinBox" name="stopLevelDoubleSpinBox">
-       <property name="maximum">
-        <double>1.000000000000000</double>
-       </property>
-       <property name="singleStep">
-        <double>0.010000000000000</double>
-       </property>
-       <property name="value">
-        <double>0.200000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="startMonitorPushButton">
        <property name="text">
         <string>启动监控</string>
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="reStartPushButton">
-       <property name="text">
-        <string>重置</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>111</y>
-      <width>598</width>
-      <height>66</height>
+      <x>22</x>
+      <y>60</y>
+      <width>845</width>
+      <height>42</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <widget class="QLabel" name="label_10">
-           <property name="text">
-            <string>总资产：</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>固定收益类资产比例：</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_8">
-           <property name="text">
-            <string>权益类资产比例：</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>总资产：</string>
+         </property>
+        </widget>
        </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
-         <item>
-          <widget class="QLabel" name="totalAssetRatioLabel">
-           <property name="minimumSize">
-            <size>
-             <width>141</width>
-             <height>16</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="BondsRatioLabel">
-           <property name="minimumSize">
-            <size>
-             <width>141</width>
-             <height>16</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="StockRatioLabel">
-           <property name="minimumSize">
-            <size>
-             <width>141</width>
-             <height>16</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+       <item row="0" column="1">
+        <widget class="QLabel" name="totalAssetRatioLabel">
+         <property name="minimumSize">
+          <size>
+           <width>141</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>固定收益类资产比例：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="BondsRatioLabel">
+         <property name="minimumSize">
+          <size>
+           <width>141</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
      <item>
-      <layout class="QGridLayout" name="gridLayout">
+      <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
         <widget class="QLabel" name="label_11">
          <property name="text">
-          <string>刷新时间</string>
+          <string>刷新时间：</string>
          </property>
         </widget>
        </item>
        <item row="0" column="1">
         <widget class="QLabel" name="updateTimeLabel">
+         <property name="minimumSize">
+          <size>
+           <width>141</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>权益类资产比例：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="StockRatioLabel">
+         <property name="minimumSize">
+          <size>
+           <width>141</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_28">
+         <property name="text">
+          <string>商品期货资产比例：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="futurAssetRatioLabel">
          <property name="minimumSize">
           <size>
            <width>141</width>
@@ -292,185 +1119,11 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>229</y>
-      <width>180</width>
-      <height>196</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QLabel" name="O32Account_12">
-         <property name="text">
-          <string>经纪公司代码</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="O32Account_13">
-         <property name="text">
-          <string>投资者账户</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="O32Account_14">
-         <property name="text">
-          <string>上次结算准备金</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="O32Account_15">
-         <property name="text">
-          <string>期货结算准备金</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="O32Account_16">
-         <property name="text">
-          <string>可用资金</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="O32Account_17">
-         <property name="text">
-          <string>可取资金</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="O32Account_18">
-         <property name="text">
-          <string>当前保证金总额</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="O32Account_19">
-         <property name="text">
-          <string>平仓盈亏</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="O32Account_20">
-         <property name="text">
-          <string>持仓盈亏</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="O32Account_21">
-         <property name="text">
-          <string>手续费</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="O32Account_22">
-         <property name="text">
-          <string>冻结的保证金</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_6">
-       <item>
-        <widget class="QLabel" name="BrokerID">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="AccountID">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="PreBalance">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="Balance">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="Available">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="WithdrawQuota">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="CurrMargin">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="CloseProfit">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="PositionProfit">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="Commission">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="FrozenMargin">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
    <widget class="QLabel" name="label_12">
     <property name="geometry">
      <rect>
-      <x>470</x>
-      <y>450</y>
+      <x>300</x>
+      <y>390</y>
       <width>48</width>
       <height>16</height>
      </rect>
@@ -485,9 +1138,9 @@
    <widget class="QLabel" name="statusLabel">
     <property name="geometry">
      <rect>
-      <x>470</x>
-      <y>480</y>
-      <width>341</width>
+      <x>370</x>
+      <y>390</y>
+      <width>191</width>
       <height>20</height>
      </rect>
     </property>
@@ -498,332 +1151,38 @@
      <string>0</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>229</y>
-      <width>230</width>
-      <height>346</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_9">
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="QLabel" name="O32Account">
-           <property name="text">
-            <string>账户编号</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_2">
-           <property name="text">
-            <string>币种</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_4">
-           <property name="text">
-            <string>总资产</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_5">
-           <property name="text">
-            <string>T-1日基金单位净值</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_7">
-           <property name="text">
-            <string>昨日单位净值</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_3">
-           <property name="text">
-            <string>当前余额</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_6">
-           <property name="text">
-            <string>期初余额</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_8">
-           <property name="text">
-            <string>期货保证金账户余额</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_9">
-           <property name="text">
-            <string>占用保证金</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_10">
-           <property name="text">
-            <string>期货资产(合约价值)</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_11">
-           <property name="text">
-            <string>股票资产</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_23">
-           <property name="text">
-            <string>债券资产</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_24">
-           <property name="text">
-            <string>现金资产</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_25">
-           <property name="text">
-            <string>回购资产</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_26">
-           <property name="text">
-            <string>其他资产</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_27">
-           <property name="text">
-            <string>基金总份额</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_28">
-           <property name="text">
-            <string>基金净资产</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <item>
-          <widget class="QLabel" name="account_code">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="currency_code">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="total_asset">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="nav">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="yesterday_nav">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="current_balance">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="begin_balance">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="futu_deposit_balance">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="occupy_deposit_balance">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="futu_asset">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="stock_asset">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="bond_asset">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="fund_asset">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="repo_asset">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="other_asset">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="fund_share">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="fund_net_asset">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_6">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_8">
-         <item>
-          <widget class="QLabel" name="O32Account_29">
-           <property name="minimumSize">
-            <size>
-             <width>108</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>ErrorCode</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="O32Account_30">
-           <property name="minimumSize">
-            <size>
-             <width>108</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>ErrorMsg</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_7">
-         <item>
-          <widget class="QLabel" name="ErrorCode">
-           <property name="minimumSize">
-            <size>
-             <width>108</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="ErrorMsg">
-           <property name="minimumSize">
-            <size>
-             <width>108</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
+   <zorder>RiskControlLabel</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>O32Account_29</zorder>
+   <zorder>ErrorCode</zorder>
+   <zorder>ErrorMsg</zorder>
+   <zorder>O32Account_30</zorder>
+   <zorder>O32Account_31</zorder>
+   <zorder>O32Account_32</zorder>
+   <zorder>futureOccupyBalance</zorder>
+   <zorder>futureEnableBalance</zorder>
+   <zorder>optionOccupyBalance</zorder>
+   <zorder>optionEnableBalance</zorder>
+   <zorder>O32Account_33</zorder>
+   <zorder>O32Account_34</zorder>
+   <zorder>loggingBrowser</zorder>
+   <zorder>groupBox</zorder>
+   <zorder>groupBox_2</zorder>
+   <zorder>groupBox_3</zorder>
+   <zorder>groupBox_4</zorder>
+   <zorder>label_28</zorder>
+   <zorder>futurAssetRatioLabel</zorder>
+   <zorder>groupBox_5</zorder>
+   <zorder>groupBox_6</zorder>
+   <zorder>label_3</zorder>
+   <zorder>startMonitorPushButton</zorder>
+   <zorder>timeSpanSpinBox</zorder>
+   <zorder>label_3</zorder>
+   <zorder>timeSpanSpinBox</zorder>
+   <zorder>layoutWidget_3</zorder>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">

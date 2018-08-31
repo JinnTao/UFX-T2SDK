@@ -8,8 +8,15 @@
 #include <QtWidgets/QApplication>
 #include <qmetatype.h>
 
+#include "easylogging++.h"  
+
+INITIALIZE_EASYLOGGINGPP
+
 int main(int argc, char *argv[])
 {
+    el::Configurations conf("easylogging.conf");
+    el::Loggers::reconfigureAllLoggers(conf);
+
     QApplication a(argc, argv);
 
     // register meta type

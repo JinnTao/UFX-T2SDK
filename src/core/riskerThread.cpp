@@ -45,7 +45,9 @@ void riskerThread::run(){
                 // reConnect failed.
                 msleep(5000);
             }
-        
+            else{
+                emit sendStatusMsg(QString("Reconnect success!."));
+            }
         }
 
 

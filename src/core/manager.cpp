@@ -30,7 +30,8 @@ int32 manager::loadConf(){
         o32_config_.passwd = lpConfig_->GetString("ufx", "password", "");
         o32_config_.license_file = lpConfig_->GetString("t2sdk", "license_file", "license.dat");
         o32_config_.login_name = lpConfig_->GetString("t2sdk", "login_name", "riskManager");
-        o32_config_.authorization_id = lpConfig_->GetString("uffx", "authorization_id", "hd123456");
+        o32_config_.authorization_id = lpConfig_->GetString("ufx", "authorization_id", "hd123456");
+        o32_config_.asset_no = lpConfig_->GetString("ufx", "asset_no", "");
 
         // ctp config
         ctp_config_.brokerId = lpConfig_->GetString("ctp_account", "brokerID", "");

@@ -1,5 +1,7 @@
 #include "riskerThread.h"
 #include "qdebug.h"
+#include "time.h"
+#include <ctime>
 
 riskerThread::riskerThread(QObject *parent) :QThread(parent)
 {
@@ -35,7 +37,11 @@ void riskerThread::run(){
 
             memcpy(&future_account_, riskManager.getFutureInfo(), sizeof(sTradingAccountInfo));
             o32_account_ = riskManager.getO32Info();
-
+            auto now_time = std::chrono::system_clock::now();
+            auto date_time = std::chrono::system_clock::to_time_t(now_time);
+            char date_time_buff[50];
+            std::strftime(date_time_buff, 50, "%Y-%m-%d %H:%M:%S", localtime(&date_time));
+            future_account_.updateTime = date_time_buff;
             emit resultReady(future_account_, o32_account_);
 
             msleep(time_span_ * 1000);

@@ -99,6 +99,7 @@ void RiskManagerApp::handleResults(sTradingAccountInfo futureInfo, o32_account_i
     ui.PositionProfit->setText(QString::number(futureInfo.PositionProfit));
     ui.Commission->setText(QString::number(futureInfo.Commission));
     ui.FrozenMargin->setText(QString::number(futureInfo.FrozenMargin));
+    ui.updateTimeLabel->setText(QString::fromStdString(futureInfo.updateTime));
     //o32 account
     if (o32_account_info.size() > 0){
         ui.account_code->setText(QString::fromStdString(o32_account_info["total_account_code"]));
@@ -149,11 +150,12 @@ void RiskManagerApp::handleResults(sTradingAccountInfo futureInfo, o32_account_i
     // 商品以及金融衍生品
     if (futureDeriAsset > futureAndDeri_stop_level_){
         allowFutureDerivativeStop = false;
+        allowFutureDerivativeWarning = false;
         ui.statusLabel->setText(QString::fromLocal8Bit("发现异常！"));
         ui.loggingBrowser->append(QString::fromLocal8Bit("到达平仓线！商品衍生品比例：") + QString::number(futureDeriAsset, 'g', 3) + QString::fromLocal8Bit(" 平仓线：") + QString::number(futureAndDeri_stop_level_, 'g', 3));
         LOG(ERROR) << "到达平仓线！商品衍生品比例:" << futureDeriAsset << ",平仓线:" << futureAndDeri_stop_level_;
     }
-    if (futureDeriAsset > futureAndDeri_warning_level_){
+    else if (futureDeriAsset > futureAndDeri_warning_level_){
         allowFutureDerivativeWarning = false;
         ui.statusLabel->setText(QString::fromLocal8Bit("发现异常！"));
         ui.loggingBrowser->append(QString::fromLocal8Bit("到达预警线！商品衍生品比例：") + QString::number(futureDeriAsset, 'g', 3) + QString::fromLocal8Bit(" 预警线：") + QString::number(futureAndDeri_warning_level_, 'g', 3));
@@ -162,11 +164,12 @@ void RiskManagerApp::handleResults(sTradingAccountInfo futureInfo, o32_account_i
     // 商品期货
     if (futureAsset > future_stop_level_){
         allowFutureTradeStop = false;
+        allowFutureTradeWarning = false;
         ui.statusLabel->setText(QString::fromLocal8Bit("发现异常！"));
         ui.loggingBrowser->append(QString::fromLocal8Bit("到达平仓线！商品比例：") + QString::number(futureAsset, 'g', 3) + QString::fromLocal8Bit(" 平仓线：") + QString::number(future_stop_level_, 'g', 3));
         LOG(ERROR) << "到达平仓线！商品比例:" << futureAsset << ",平仓线:" << future_stop_level_;
     }
-    if (futureAsset > future_warning_level_){
+    else if (futureAsset > future_warning_level_){
         allowFutureTradeWarning = false;
         ui.statusLabel->setText(QString::fromLocal8Bit("发现异常！"));
         ui.loggingBrowser->append(QString::fromLocal8Bit("到达预警线！商品比例：") + QString::number(futureAsset, 'g', 3) + QString::fromLocal8Bit(" 预警线：") + QString::number(future_warning_level_, 'g', 3));
@@ -175,11 +178,12 @@ void RiskManagerApp::handleResults(sTradingAccountInfo futureInfo, o32_account_i
     // 股票权益类资产
     if (equityAsset > stock_stop_level_){
         allowStockTradeStop = false;
+        allowStockTradeWarning = false;
         ui.statusLabel->setText(QString::fromLocal8Bit("发现异常！"));
         ui.loggingBrowser->append(QString::fromLocal8Bit("到达平仓线！权益类比例：") + QString::number(equityAsset, 'g', 3) + QString::fromLocal8Bit(" 平仓线：") + QString::number(stock_stop_level_, 'g', 3));
         LOG(ERROR) << "到达平仓线！权益类比例:" << equityAsset << ",平仓线:" << stock_stop_level_;
     }
-    if (equityAsset > stock_warning_level_){
+    else if (equityAsset > stock_warning_level_){
         allowStockTradeWarning = false;
         ui.statusLabel->setText(QString::fromLocal8Bit("发现异常！"));
         ui.loggingBrowser->append(QString::fromLocal8Bit("到达预警线！权益类比例：") + QString::number(equityAsset, 'g', 3) + QString::fromLocal8Bit(" 预警线：") + QString::number(stock_warning_level_, 'g', 3));
@@ -189,6 +193,7 @@ void RiskManagerApp::handleResults(sTradingAccountInfo futureInfo, o32_account_i
     // 固收类资产
     if (fixedIncome < fixed_stop_level_){
         allowFixedTradeStop = false;
+        allowFixedTradeWarning = false;
         ui.statusLabel->setText(QString::fromLocal8Bit("发现异常！"));
         ui.loggingBrowser->append(QString::fromLocal8Bit("到达平仓线！固收类比例：") + QString::number(fixedIncome, 'g', 3) + QString::fromLocal8Bit(" 平仓线：") + QString::number(fixed_stop_level_, 'g', 3));
         LOG(ERROR) << "到达平仓线！固收类比例:" << fixedIncome << ",平仓线:" << fixed_stop_level_;

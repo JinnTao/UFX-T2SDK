@@ -1,1 +1,1 @@
-cd build && cmake ..
+cd build && cmake -G "Visual Studio 2013 Win64" ..

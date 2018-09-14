@@ -56,7 +56,7 @@ int32 manager::loadConf(){
 }
 
 int32 manager::init(){
-    // init ctp trade
+    // init  trade
     int32 init_result;
     try{
         if (ctp_td_spi_){
